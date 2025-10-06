@@ -11,14 +11,12 @@ import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 class StudentResourceTest {
-
     @Inject
-    StudentResource resource; // to get a handle on the id and the map field
+    DatabaseService ds;
 
     @BeforeEach
     void reset() {
-        // Guaranties a deterministic start for each single test, no matter the order.
-        resource.datasourceReset(); // seeds 2 datasets
+        ds.reset(); // seeds 2 datasets
     }
 
     @Test
