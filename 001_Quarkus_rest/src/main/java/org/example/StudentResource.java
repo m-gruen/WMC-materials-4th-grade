@@ -13,13 +13,13 @@ import java.util.*;
 @Path("/students")
 public class StudentResource {
 
-    // This is our backing-map we use instead of a DB for now.
-    private final Map<Long, Student> students = new HashMap<>();
-    // This field holds the next viable id.
-    private Long nextId = 1L;
+    Long nextId = 1L;
+    final Map<Long, Student> students = new HashMap<>();
 
-    public StudentResource() {
-        // Initialize it in the constructor.
+    void datasourceReset() {
+        students.clear();
+        nextId = 1L;
+
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         Student s = Student.builder().id(nextId++).fullName("Gerald Unterrainer").email("gerald@unterrainer.info")
                 .birthDate(LocalDateTime.parse("1975-05-02 00:00", f)).build();
@@ -27,6 +27,10 @@ public class StudentResource {
         s = Student.builder().id(nextId++).fullName("Kasperl Unterrainer").email("kasperl@unterrainer.info")
                 .birthDate(LocalDateTime.parse("1995-10-23 00:00", f)).build();
         students.put(s.getId(), s);
+    }
+
+    public StudentResource() {
+        datasourceReset();
     }
 
     @GET
@@ -57,5 +61,27 @@ public class StudentResource {
         return Response.created(
                 uriInfo.getAbsolutePathBuilder().path(incoming.getId() + "").build()
         ).entity(incoming).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteStudent(@PathParam("id") long id) {
+        students.remove(id);
+        return Response.noContent().build(); // 204 - no content
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateStudent(@PathParam("id") long id, Student incoming) {
+        if (!students.containsKey(id)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Map.of("error", "Student not found")).build();
+        }
+
+        incoming.setId(id);
+        students.put(id, incoming);
+        return Response.ok(incoming).build(); // 200 + updated object
     }
 }
