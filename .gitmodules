@@ -1,3 +1,6 @@
 [submodule "002_HW_CDI"]
 	path = 002_HW_CDI
 	url = git@github.com:2526-wmc-4ahif/hw-cdi-1-m-gruen.git
+[submodule "004_Quarkus_backend_1"]
+	path = 004_Quarkus_backend_1
+	url = git@github.com:2526-wmc-4ahif/hw-quarkus-backend-1-m-gruen.git
