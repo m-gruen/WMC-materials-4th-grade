@@ -7,3 +7,6 @@
 [submodule "005_HW_Rest"]
 	path = 005_HW_Rest
 	url = git@github.com:2526-wmc-4ahif/hw-rest-with-db-m-gruen.git
+[submodule "008_WMC_Test"]
+	path = 008_WMC_Test
+	url = git@github.com:2526-wmc-4ahif/test-wmc-quarkus-rest-m-gruen.git
