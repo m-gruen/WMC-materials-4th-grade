@@ -1,16 +1,13 @@
 package org.acme.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
-public class Plot {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class Plot extends PanacheEntity {
     private Double width;
     private Double height;
 
