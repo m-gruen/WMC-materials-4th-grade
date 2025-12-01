@@ -1,0 +1,30 @@
+### Gardens API  
+  
+### List all gardens  
+GET http://localhost:8080/gardens  
+Accept: application/json  
+  
+### Get garden by ID  
+GET http://localhost:8080/gardens/1  
+Accept: application/json  
+  
+### Create garden  
+POST http://localhost:8080/gardens  
+Content-Type: application/json  
+  
+{  
+  "address": "Schulgasse 12, 4020 Linz"}  
+  
+### Update garden  
+PUT http://localhost:8080/gardens/1  
+Content-Type: application/json  
+  
+{  
+  "address": "Neue Adresse 99"}  
+  
+### Delete garden  
+DELETE http://localhost:8080/gardens/1
+
+### Top 5 Gardens by Address
+GET http://localhost:8080/gardens/top5
+Accept: application/json

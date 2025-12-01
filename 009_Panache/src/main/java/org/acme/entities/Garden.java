@@ -2,16 +2,16 @@ package org.acme.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.reactive.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Collection;
 
 @Entity
+@NamedQuery(
+        name = "Garden.sortedByAddress",
+        query = "FROM Garden g ORDER BY g.address ASC"
+)
 public class Garden extends PanacheEntity {
-
     private String address;
 
     public Long getId() {

@@ -1,0 +1,33 @@
+### Vegetables API (with M:N Plot Relations)  
+  
+### List all vegetables  
+GET http://localhost:8080/vegetables  
+Accept: application/json  
+  
+### Get vegetable by ID  
+GET http://localhost:8080/vegetables/1  
+Accept: application/json  
+  
+### Create new vegetable  
+POST http://localhost:8080/vegetables  
+Content-Type: application/json  
+  
+{  
+  "name": "Carrot",  "nutritionalValue": 23}  
+  
+### Update vegetable  
+PUT http://localhost:8080/vegetables/1  
+Content-Type: application/json  
+  
+{  
+  "name": "Carrot Deluxe",  "nutritionalValue": 42}  
+  
+### Assign plots to vegetable (inverse M:N)  
+PUT http://localhost:8080/vegetables/1  
+Content-Type: application/json  
+  
+{  
+  "plots": [    { "id": 1 }  ]}  
+  
+### Delete vegetable  
+DELETE http://localhost:8080/vegetables/1

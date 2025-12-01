@@ -1,0 +1,33 @@
+### Plots API (with M:N Vegetable Relations)  
+  
+### List all plots  
+GET http://localhost:8080/plots  
+Accept: application/json  
+  
+### Get plot by ID  
+GET http://localhost:8080/plots/1  
+Accept: application/json  
+  
+### Create plot (Garden ID = 1)  
+POST http://localhost:8080/plots  
+Content-Type: application/json  
+  
+{  
+  "width": 10,  "height": 5,  "garden": { "id": 1 }}  
+  
+### Assign vegetables to plot (M:N)  
+PUT http://localhost:8080/plots/1  
+Content-Type: application/json  
+  
+{  
+  "vegetables": [    { "id": 1 },    { "id": 2 }  ]}  
+  
+### Fully update plot (incl Garden + Vegetables)  
+PUT http://localhost:8080/plots/2  
+Content-Type: application/json  
+  
+{  
+  "width": 12,  "height": 7,  "garden": { "id": 1 },  "vegetables": [    { "id": 1 }  ]}  
+  
+### Delete plot  
+DELETE http://localhost:8080/plots/1
