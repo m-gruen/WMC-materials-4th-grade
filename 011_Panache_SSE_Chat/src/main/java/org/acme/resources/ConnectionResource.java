@@ -1,7 +1,9 @@
 package org.acme.resources;
 
+import java.util.Map;
 import java.util.UUID;
 
+import org.acme.services.MessageService;
 import org.jboss.resteasy.reactive.RestStreamElementType;
 import org.acme.entities.Message;
 import org.acme.services.EventBusService;
@@ -18,6 +20,8 @@ import jakarta.ws.rs.core.MediaType;
 public class ConnectionResource {
     @Inject
     EventBusService bus;
+    @Inject
+    MessageService messageService;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -28,8 +32,8 @@ public class ConnectionResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(Message message) {
-        // Create a message
-        // Publish message via SSE to all connected clients
+        messageService.create(message);
+        bus.publish(Map.of("userId", message.getUserId(), "message", message.getText(), "timestamp", message.getTimestamp()));
     }
 
     // SSE Events...
