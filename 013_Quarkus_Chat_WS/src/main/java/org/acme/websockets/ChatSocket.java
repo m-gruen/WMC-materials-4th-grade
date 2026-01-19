@@ -2,6 +2,7 @@ package org.acme.websockets;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executor;
 
 import org.acme.entities.Message;
 import org.acme.services.MessageService;
@@ -22,8 +23,12 @@ public class ChatSocket {
     private static final Set<Session> sessions = new CopyOnWriteArraySet<>();
     @Inject
     ObjectMapper mapper;
+
     @Inject
     MessageService messageService;
+
+    @Inject
+    Executor executor;
 
     @OnOpen
     public void onOpen(Session session) {
@@ -37,14 +42,16 @@ public class ChatSocket {
 
     @OnMessage
     public void onMessage(String json, Session session) throws Exception {
-        try {
-            Message msg = mapper.readValue(json, Message.class);
-            Message persisted = messageService.create(msg);
+        executor.execute(() -> {
+            try {
+                Message msg = mapper.readValue(json, Message.class);
+                Message persisted = messageService.create(msg);
 
-            broadcast(mapper.writeValueAsString(persisted));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                broadcast(mapper.writeValueAsString(persisted));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void broadcast(String message) {
