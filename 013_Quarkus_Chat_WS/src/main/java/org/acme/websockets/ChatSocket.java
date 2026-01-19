@@ -3,11 +3,12 @@ package org.acme.websockets;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.acme.entities.Message;
 import org.acme.services.MessageService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.vertx.mutiny.ext.web.Session;
+import jakarta.websocket.Session;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.websocket.OnClose;
@@ -36,7 +37,14 @@ public class ChatSocket {
 
     @OnMessage
     public void onMessage(String json, Session session) throws Exception {
-        // our code to save the message and notify others...
+        try {
+            Message msg = mapper.readValue(json, Message.class);
+            Message persisted = messageService.create(msg);
+
+            broadcast(mapper.writeValueAsString(persisted));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void broadcast(String message) {
