@@ -16,3 +16,6 @@
 [submodule "012_Quarkus_backend_3"]
 	path = 012_Quarkus_backend_3
 	url = git@github.com:2526-wmc-4ahif/hw-quarkus-backend-3-m-gruen.git
+[submodule "014_WMC_Test_2"]
+	path = 014_WMC_Test_2
+	url = git@github.com:2526-wmc-4ahif/test-wmc-quarkus-rest-2-m-gruen.git
