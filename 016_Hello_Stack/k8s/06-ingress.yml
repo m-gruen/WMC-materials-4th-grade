@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helloapp-ingress
+  namespace: hello
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # /helloApp/api/... -> backend /api/...
+          - path: /helloApp(/|$)(api.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+
+          # /helloApp/pgadmin/... -> pgadmin /...
+          - path: /helloApp/pgadmin(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: pgadmin
+                port:
+                  number: 80
+
+          # /helloApp/... -> frontend /...
+          - path: /helloApp(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

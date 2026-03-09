@@ -1,0 +1,18 @@
+# ignore common junk
+.git
+.gitignore
+**/.DS_Store
+**/.idea
+**/.vscode
+
+# ignore build outputs
+target
+**/target
+
+# but KEEP what the docker build needs
+!pom.xml
+!mvnw
+!.mvn/
+!.mvn/**
+!src/
+!src/**

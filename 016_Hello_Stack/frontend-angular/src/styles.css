@@ -1,0 +1,5 @@
+/* You can add global styles to this file, and also import other style files */
+
+body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+button { margin-right: 8px; }
+pre { background: #f6f8fa; padding: 12px; border-radius: 8px; overflow: auto; }
