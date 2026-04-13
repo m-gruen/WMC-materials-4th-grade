@@ -1,8 +1,20 @@
+package com.example.myapplication
+
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Home : NavKey
+data class Home(
+    val title: String
+) : NavKey
 
 @Serializable
-data object Profile : NavKey
+data class Profile(
+    val title: String
+) : NavKey
+
+@Serializable
+data object NoteList : NavKey
+
+@Serializable
+data class NoteDetail(val noteId: Int) : NavKey
