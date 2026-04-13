@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import Home
+import Profile
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,10 +24,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
+                val backStack = rememberNavBackStack(Home)
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    NavDisplay(
+                        backStack = backStack,
+                        onBack = { backStack.removeLastOrNull() },
+                        modifier = Modifier.padding(innerPadding),
+                        entryProvider = entryProvider {
+                            entry<Home> {
+                                HomeScreen(
+                                    onProfileClick = { backStack.add(Profile) }
+                                )
+                            }
+                            entry<Profile> {
+                                ProfileScreen()
+                            }
+                        }
                     )
                 }
             }
