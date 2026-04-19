@@ -20,8 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             StatesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    StateRememberSaveable(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
