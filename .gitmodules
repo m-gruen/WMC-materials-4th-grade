@@ -19,3 +19,6 @@
 [submodule "014_WMC_Test_2"]
 	path = 014_WMC_Test_2
 	url = git@github.com:2526-wmc-4ahif/test-wmc-quarkus-rest-2-m-gruen.git
+[submodule "021_WMC_Test_3"]
+	path = 021_WMC_Test_3
+	url = git@github.com:2526-wmc-4ahif/test-wmc-android-1-m-gruen.git
