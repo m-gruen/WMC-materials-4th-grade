@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import android.util.Log
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.states.ui.theme.StatesTheme
 
@@ -122,15 +123,36 @@ fun StateRememberSaveable(modifier: Modifier = Modifier) {
     }
 }
 
+// Route / wiring
 @Composable
 fun CounterScreen(
     modifier: Modifier = Modifier,
-    counterViewModel: CounterViewModel = viewModel()
+    vm: CounterViewModel = viewModel()
+) {
+    CounterContent(
+        modifier = modifier,
+        counter = vm.counter,
+        onIncrement = vm::increment
+    )
+}
+
+// Pure UI:
+@Composable
+fun CounterContent(
+    counter: Int,
+    onIncrement: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(modifier.fillMaxSize()) {
-        Text("counter is ${counterViewModel.counter}")
-        Button(onClick = { counterViewModel.increment() }) {
-            Text("counter++")
-        }
+        Text("counter is $counter")
+        Button(onClick = onIncrement) { Text("counter++") }
+    }
+}
+
+@Preview(name = "CounterContent", showBackground = true)
+@Composable
+fun CounterContentPreview(){
+    StatesTheme {
+        CounterContent(counter = 0, onIncrement = {})
     }
 }
