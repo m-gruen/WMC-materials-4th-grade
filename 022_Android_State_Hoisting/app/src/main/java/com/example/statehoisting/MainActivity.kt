@@ -70,5 +70,11 @@ fun GreetingScreen(modifier: Modifier = Modifier) {
             name = name,
             onNameChange = { name = it }
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "${name.length} characters",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
