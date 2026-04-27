@@ -39,17 +39,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NameInput() {
-    var name by remember { mutableStateOf("") }
+fun NameInput(
+    name: String,
+    onNameChange: (String) -> Unit
+) {
     OutlinedTextField(
         value = name,
-        onValueChange = { name = it },
+        onValueChange = onNameChange,
         label = { Text("Enter your name") }
     )
 }
 
 @Composable
 fun GreetingScreen(modifier: Modifier = Modifier) {
+    var name by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -58,10 +62,13 @@ fun GreetingScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Hello, !",
+            text = "Hello, $name!",
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
-        NameInput()
+        NameInput(
+            name = name,
+            onNameChange = { name = it }
+        )
     }
 }
