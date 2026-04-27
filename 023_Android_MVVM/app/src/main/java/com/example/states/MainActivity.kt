@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import android.util.Log
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.states.ui.theme.StatesTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,16 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             StatesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    //Variable(
-                    //    modifier = Modifier.padding(innerPadding)
-                    //)
-                    //StateMutable(
-                    //    modifier = Modifier.padding(innerPadding)
-                    //)
-                    //StateRemember(
-                    //    modifier = Modifier.padding(innerPadding)
-                    //)
-                    StateRememberSaveable(
+                    CounterScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -125,6 +117,19 @@ fun StateRememberSaveable(modifier: Modifier = Modifier) {
             counter.value++
             Log.d("ComposeTest", "counter = $counter")
         }) {
+            Text("counter++")
+        }
+    }
+}
+
+@Composable
+fun CounterScreen(
+    modifier: Modifier = Modifier,
+    counterViewModel: CounterViewModel = viewModel()
+) {
+    Column(modifier.fillMaxSize()) {
+        Text("counter is ${counterViewModel.counter}")
+        Button(onClick = { counterViewModel.increment() }) {
             Text("counter++")
         }
     }
