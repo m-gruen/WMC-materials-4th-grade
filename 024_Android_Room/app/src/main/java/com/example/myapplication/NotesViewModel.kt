@@ -1,21 +1,16 @@
 package com.example.myapplication
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider
-.AndroidViewModelFactory
-.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-
 
 data class NotesUiState(
     val notes: List<Note> = emptyList()
@@ -30,12 +25,12 @@ class NotesViewModel(
             .map { NotesUiState(notes = it) }
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted
-                    .WhileSubscribed(5_000),
+                started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = NotesUiState()
             )
 
     fun addNote(text: String) {
+        if (text.isBlank()) return
         viewModelScope.launch {
             repo.add(text)
         }
@@ -48,17 +43,12 @@ class NotesViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    val app =
-                        this[APPLICATION_KEY]!!
-                    val dao = AppDatabase
-                        .get(app).noteDao()
-                    NotesViewModel(
-                        NotesRepository(dao)
-                    )
-                }
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val app = this[APPLICATION_KEY]!!
+                val dao = AppDatabase.get(app).noteDao()
+                NotesViewModel(NotesRepository(dao))
             }
+        }
     }
 }

@@ -30,17 +30,16 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun NotesScreen(
-    vm: NotesViewModel = viewModel(
-        factory = NotesViewModel.Factory
-    )
+    modifier: Modifier = Modifier,
+    vm: NotesViewModel = viewModel(factory = NotesViewModel.Factory)
 ) {
-    val state by vm.uiState
-        .collectAsStateWithLifecycle()
+    val state by vm.uiState.collectAsStateWithLifecycle()
 
     NotesContent(
         notes = state.notes,
         onAdd = vm::addNote,
-        onDelete = vm::deleteNote
+        onDelete = vm::deleteNote,
+        modifier = modifier
     )
 }
 
@@ -81,7 +80,7 @@ fun NotesContent(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(notes, key = { it.createdAt }) { note ->
+            items(notes, key = { it.id }) { note ->
                 Card(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier
