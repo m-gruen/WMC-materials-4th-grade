@@ -1,6 +1,13 @@
 package com.htl.leo.restclient.data
 
-// TODO: Create a class JokeRepository with a suspend fun getJoke(): Joke?
-//       - Call jokeService.getRandomJoke()
-//       - If the response is successful, return response.body()
-//       - Otherwise throw an Exception with the HTTP code
+class JokeRepository {
+
+    suspend fun getJoke(): Joke? {
+        val response = jokeService.getRandomJoke()
+        if (response.isSuccessful) {
+            return response.body()
+        } else {
+            throw Exception("Network Error ${response.code()}")
+        }
+    }
+}

@@ -1,5 +1,13 @@
 package com.htl.leo.restclient.data
 
-// TODO: Define a private const val URL = "https://official-joke-api.appspot.com/"
-// TODO: Build a Retrofit instance with the JacksonConverterFactory and the URL
-// TODO: Expose a top-level `jokeService` by calling retrofit.create(JokeServiceClient::class.java)
+import retrofit2.Retrofit
+import retrofit2.converter.jackson.JacksonConverterFactory
+
+private const val URL = "https://official-joke-api.appspot.com/"
+
+private val retrofit = Retrofit.Builder()
+    .addConverterFactory(JacksonConverterFactory.create())
+    .baseUrl(URL)
+    .build()
+
+val jokeService: JokeServiceClient = retrofit.create(JokeServiceClient::class.java)
